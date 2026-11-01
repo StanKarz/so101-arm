@@ -1,0 +1,8 @@
+[project]
+name = "so101"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "lerobot[feetech]>=0.6.1",
+    "pyobjc-framework-avfoundation>=12.2.2",
+]

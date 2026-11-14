@@ -10,11 +10,18 @@ export CAMS="{ wrist: {type: opencv, index_or_path: $WRIST_CAM, width: 640, heig
 
 The 12 V brick goes on the follower board and the 5 V brick on the leader board. USB alone doesn't power the motors, and 12 V burns the leader's 7.4 V motors.
 
-The live view and recording need two extras, added once:
+## Versions
+
+`pyproject.toml` pins lerobot 0.7.0, the version LeLab runs, with the same extras: `core-scripts` (recording, the Rerun live view, the arrow keys), `feetech` and `training`. Run `uv sync` after pulling.
+
+Keep the two on one version, and change neither from demo 1 until the 20 trials are done, for the same reason calibration stays frozen. To compare:
 
 ```bash
-uv add "lerobot[feetech,viz,dataset]"
+uv run python -c "import importlib.metadata as m; print(m.version('lerobot'))"                    # this repo
+$(uv tool dir)/lelab/bin/python -c "import importlib.metadata as m; print(m.version('lerobot'))"  # LeLab
 ```
+
+If LeLab's update button moves it to a newer lerobot, bump the pin here to match (`uv add "lerobot[core-scripts,feetech,training]==<version>"`) and rerun the checks below.
 
 ## Teleop
 
@@ -64,10 +71,16 @@ To roll back, copy a backup over the file in `~/.cache/huggingface/lerobot/calib
 ```bash
 lelab            # GUI at http://127.0.0.1:8000, from any folder
 lelab --no-open  # same, without opening a browser
-lelab --stop     # run this when finished
+lelab --stop     # from another terminal, when Ctrl-C doesn't return the prompt
 ```
 
 Link the existing `follower` and `leader` files under Calibration > Advanced. A new calibration under either name overwrites that file. LeLab has no `max_relative_target`, so line the arms up before teleop and do the first policy run from the command line.
+
+Name cameras `wrist` and `front`, as in `$CAMS` above. The name becomes the dataset key (`observation.images.wrist`), and a policy looks its images up by that key.
+
+Stop teleop in the GUI before stopping the server. The server's shutdown stops a recording but not teleop, so stopping it mid-teleop leaves the follower's torque on and it holds its pose until the brick goes off. `lelab --stop` sends a terminate signal and kills whatever is left after 5 s.
+
+After pressing LeLab's update button, restart it: the running server keeps the old code in memory, and the update can uninstall packages that code needs.
 
 ## Checks
 

@@ -3,6 +3,6 @@ name = "so101"
 version = "0.1.0"
 requires-python = ">=3.12"
 dependencies = [
-    "lerobot[feetech]>=0.6.1",
+    "lerobot[core-scripts,feetech,training]==0.7.0",
     "pyobjc-framework-avfoundation>=12.2.2",
 ]

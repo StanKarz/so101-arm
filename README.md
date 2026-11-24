@@ -4,4 +4,4 @@ SO-101 leader and follower arms running on LeRobot, plus the scripts I needed to
 
 Teleoperation has worked since 29 Oct 2026. Next up: record demos, train ACT and measure it over 20 trials. Session notes are in `LOG.md`.
 
-Run anything with `uv run python <script>.py`. Each script's docstring has its usage. Everyday commands are in `COMMANDS.md`. `study-hub/` is the page I study from: the bench reference and failure log, plus sims of the arm, the servo bus, teleop and ACT.
+Run anything with `uv run python <script>.py`. Each script's docstring has its usage. Everyday commands are in `COMMANDS.md`. `study-hub/` is the page I study from: the theory behind the build and ACT, with sims of the arm, the servo bus, the motor's registers, teleop and ACT.

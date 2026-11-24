@@ -1,6 +1,6 @@
 # Study hub
 
-One page for working through the SO-101 bench and the theory behind it: a catch-up course on classical robotics and ACT, a rig checklist, bench reference, failure log and glossary. The sims run in the browser: a 3D arm built from the official URDF, a servo-bus fault finder, a one-joint teleop loop, wrist and scene camera views, and ACT's tensor shapes on this rig's camera modes.
+One page for working through the SO-101 bench and the theory behind it: a catch-up course on classical robotics and ACT, self-test questions with hidden answers, a failure log and a glossary that quizzes you. The sims run in the browser: a 3D arm built from the official URDF, a servo-bus fault finder, the motor's register map, a one-joint teleop loop, wrist and scene camera views, and ACT's tensor shapes on this rig's camera modes.
 
 Written with Claude from my bench notes and measurements.
 

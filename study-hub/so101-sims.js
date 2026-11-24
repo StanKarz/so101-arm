@@ -77,7 +77,7 @@
   });
   meter();
 
-  const spyMap = { plan: "plan", "day-1": "day-1", "day-2": "day-2", rig: "rig", later: "later", reference: "reference", failures: "reference", glossary: "reference" };
+  const spyMap = { plan: "plan", "day-1": "day-1", "day-2": "day-2", later: "later", failures: "failures", glossary: "glossary" };
   const navLinks = Array.from(document.querySelectorAll(".topbar nav a"));
   if ("IntersectionObserver" in window) {
     const spy = new IntersectionObserver((es) => {
@@ -133,6 +133,90 @@
     document.querySelectorAll('a[href^="#f-"]').forEach((a) => a.addEventListener("click", () => setCat("All")));
   })();
 
+
+  /* ---------- register map: EEPROM or RAM, self-test ---------- */
+  (function () {
+    const grid = $("rm-grid");
+    if (!grid) return;
+    // [address, register, E(EPROM) or R(AM), touched by, what it means on your arm]
+    const R = [
+      [3, "Model_Number", "E", "", "Factory, read-only. 777 on all twelve of your motors, which is why the 12 V and 7.4 V variants look identical to LeRobot."],
+      [5, "ID", "E", "setup", "Written once per motor by lerobot-setup-motors or set_motor_id.py. It survives unplugging, which is why the IDs from 25 Oct still answer."],
+      [6, "Baud_Rate", "E", "setup", "Written with the ID. If it were RAM, every motor would fall back to the factory rate at power-on and the bus would go silent."],
+      [7, "Return_Delay_Time", "E", "connect", "LeRobot sets it to 0 on every connect, so motors answer without waiting."],
+      [9, "Min_Position_Limit", "E", "cal", "range_min from calibration, e.g. 1310 on the follower gripper."],
+      [11, "Max_Position_Limit", "E", "cal", "range_max from calibration, e.g. 2809 on the follower gripper."],
+      [13, "Max_Temperature_Limit", "E", "", "Factory cut-off in °C. inspect_motors.py prints it next to the live temperature."],
+      [14, "Max_Voltage_Limit", "E", "", "The fingerprint: 140, 80 or 120 tells the 12 V and 7.4 V variants apart (failure 2)."],
+      [16, "Max_Torque_Limit", "E", "connect", "LeRobot writes 500 (half) to the follower gripper on every connect, because it stalls on every grasp."],
+      [21, "P_Coefficient", "E", "connect", "16, written on every connect. Being EEPROM, it stays 16 after LeRobot exits."],
+      [22, "D_Coefficient", "E", "connect", "32, written on every connect."],
+      [23, "I_Coefficient", "E", "connect", "0, written on every connect. No integral term is why the follower sags under gravity."],
+      [28, "Protection_Current", "E", "connect", "Gripper set to 250 on connect. Factory values (310, 500, 300) are the other half of the fingerprint."],
+      [31, "Homing_Offset", "E", "cal", "Written at the mid-pose Enter so that pose reads 2047. The calibration lives in the motor as much as in follower.json."],
+      [33, "Operating_Mode", "E", "connect", "0, position mode, set on every connect."],
+      [36, "Overload_Torque", "E", "connect", "Gripper set to 25 % on connect: the torque it drops to when overloaded."],
+      [40, "Torque_Enable", "R", "connect", "The first RAM register. Resets to 0, so every motor powers up limp; LeRobot turns it on for the follower and leaves the leader off."],
+      [41, "Acceleration", "R", "connect", "254 on every connect, the fastest ramp."],
+      [42, "Goal_Position", "R", "loop", "Written 60 times a second in teleop: the leader's position, sent to the follower. Gone at power-off, as it should be."],
+      [55, "Lock", "R", "connect", "Guards EEPROM. LeRobot opens it whenever torque is off and closes it when torque goes on."],
+      [56, "Present_Position", "R", "loop", "Read every tick: the encoder count. find_mid_pose.py and check_ids.py read it too."],
+      [62, "Present_Voltage", "R", "", "Live, in 0.1 V. 121–123 on the follower since the 5 A brick."],
+      [63, "Present_Temperature", "R", "", "Live °C. The number to log after each soak run."],
+      [65, "Status", "R", "", "Live alarm bits: voltage, sensor, temperature, current, load. 0 means healthy."],
+    ];
+    const guessBox = $("rm-guess"), log = $("rm-log"), score = $("rm-score"), which = $("rm-which");
+    const btns = Array.from(guessBox.querySelectorAll("button"));
+    const state = R.map(() => null); // null, "right", "wrong"
+    let sel = -1, filt = "all";
+    const WHO = { setup: "motor setup", cal: "calibration", connect: "every LeRobot connect", loop: "the teleop loop", "": "read only, or factory" };
+    grid.innerHTML = R.map((r, i) => '<button type="button" class="rm-cell" data-i="' + i + '" aria-pressed="false"><span class="a">' + r[0] + '</span><span class="nm">' + r[1] + "</span></button>").join("");
+    const cells = Array.from(grid.children);
+    function paint() {
+      cells.forEach((c, i) => {
+        const r = R[i];
+        c.classList.toggle("E", state[i] !== null && r[2] === "E");
+        c.classList.toggle("R", state[i] !== null && r[2] === "R");
+        c.classList.toggle("wrong", state[i] === "wrong");
+        c.classList.toggle("dim", filt !== "all" && r[3] !== filt);
+        c.setAttribute("aria-pressed", String(i === sel));
+      });
+      const right = state.filter((x) => x === "right").length, guessed = right + state.filter((x) => x === "wrong").length, left = state.filter((x) => !x).length;
+      score.textContent = state.some(Boolean) ? right + " of " + guessed + " guessed right · " + left + " left" + (left ? "" : ". Look at the address where the colour changes.") : "";
+      btns.forEach((b) => { b.disabled = sel < 0 || state[sel] !== null; });
+    }
+    function explain(i) {
+      const r = R[i];
+      return r[1] + " · address " + r[0] + " · " + (r[2] === "E" ? "EEPROM, survives power-off" : "RAM, resets at power-off") + " · touched by " + WHO[r[3]] + ". " + r[4];
+    }
+    grid.addEventListener("click", (e) => {
+      const c = e.target.closest(".rm-cell");
+      if (!c) return;
+      sel = +c.dataset.i;
+      which.textContent = R[sel][1];
+      log.textContent = state[sel] ? explain(sel) : "Where does " + R[sel][1] + " live?";
+      paint();
+    });
+    guessBox.addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-g]");
+      if (!b || sel < 0 || state[sel]) return;
+      const ok = b.dataset.g === R[sel][2];
+      state[sel] = ok ? "right" : "wrong";
+      log.textContent = (ok ? "Right. " : "Not quite. ") + explain(sel);
+      paint();
+    });
+    $("rm-filter").addEventListener("click", (e) => {
+      const b = e.target.closest("button[data-f]");
+      if (!b) return;
+      filt = b.dataset.f;
+      $("rm-filter").querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+      paint();
+    });
+    $("rm-reveal").addEventListener("click", () => { R.forEach((_, i) => { if (!state[i]) state[i] = "shown"; }); if (sel >= 0) log.textContent = explain(sel); paint(); });
+    $("rm-hide").addEventListener("click", () => { state.fill(null); sel = -1; which.textContent = "Pick a register"; log.textContent = "Start with ID: you set it once on 25 Oct and it still answers."; paint(); });
+    paint();
+  })();
+
   /* ---------- route map ---------- */
   (function () {
     const svg = $("route-svg");
@@ -140,8 +224,8 @@
     const S = [
       { id: "teleop", x: 50, y: 110, name: "Teleop", sub: "29 Oct", state: "done", when: "Done, 29 Oct", title: "Both arms built, first teleop clean", what: "Calibrated, 80 s of teleop, Status 0 on every motor afterwards, follower 32–38 °C. Wrist camera and Insta360 both open in the modes you'll record.", out: "21 snags logged, which is the raw material for the first post." },
       { id: "days12", x: 150, y: 110, name: "Days 1–2", sub: "now", state: "now", when: "Now · five evenings, or two on the short route", title: "This page", what: "Catch up on the bench week, classical robotics and ACT. Both days come before recording, so the demos are collected with ACT's inputs and action chunks in mind.", out: "Answers in your own words, and your 1-D compounding error toy.", href: "#day-1" },
-      { id: "rig", x: 250, y: 110, name: "Rig", sub: "alongside", state: "next", when: "Alongside the reading", title: "Finish the rig", what: "Wrist camera bolted and focused, scene camera taped down, heat test, both cameras in teleop, 12 V 5 A brick ordered.", out: "Teleop with both cameras showing in Rerun.", href: "#rig" },
-      { id: "d10", x: 340, y: 110, name: "10 demos", sub: "smoke test", state: "next", when: "Once the rig is done", title: "10 demos, all the way through", what: "Record 10 episodes and push them through training and deployment. The result doesn't matter yet: this catches rig and pipeline problems while they're cheap.", out: "A policy, however bad, moving the real arm." },
+      { id: "rig", x: 250, y: 110, name: "Bring-up", sub: "now", state: "now", when: "Now, a break from reading", title: "Bring-up", what: "Both cameras placed and tested, follower calibration checked after the flap, 12 teleop runs with motor temperatures logged, and a 5-episode LeLab recording that loads and replays. Steps in robotics/BRINGUP.md.", out: "A rig you trust to record 50 demos." },
+      { id: "d10", x: 340, y: 110, name: "10 demos", sub: "smoke test", state: "next", when: "After bring-up and Day 2", title: "10 demos, all the way through", what: "Record 10 episodes and push them through training and deployment. The result doesn't matter yet: this catches rig and pipeline problems while they're cheap.", out: "A policy, however bad, moving the real arm." },
       { id: "d50", x: 430, y: 110, name: "50 demos", sub: "", state: "next", when: "Before 20 Dec", title: "50 demos, scene frozen", what: "One task. Pick-and-place into a bin is the default, and a gravity-fed dispenser (Bercik) makes demos and evaluations repeatable. The scene stays unchanged from recording through evaluation.", out: "A dataset on the Hub." },
       { id: "act", x: 540, y: 110, name: "ACT", sub: "20 Dec", r: 12, state: "next", when: "By 20 Dec 2026", title: "LeRobot's ACT on the real arm", what: "Train, deploy, 20 trials, log every failure and its cause, film it. Measured on your Mac: 0.92 s per training step at batch 8, so LeRobot's default 100k steps is about 26 hours before data loading. Rented GPU or fewer steps gets decided here.", out: "A success rate out of 20. Everything to the right is compared against it and waits for it." },
       { id: "myact", x: 670, y: 40, name: "Your own ACT", sub: "22 Jan", side: true, state: "next", when: "By 22 Jan 2027", title: "Minimal ACT, written by hand", what: "CVAE and z, transformer decoder and chunks, temporal ensembling. Same demos, same 20 trials. Read LeRobot's implementation only after yours runs, and note what differs. Writing it yourself is how the method sticks.", out: "A comparison against LeRobot's number." },
@@ -356,11 +440,11 @@
       cables: [[-1, 1, 0, 0], [0, 1, 1, 0], [1, 1, 2, 0], [2, 1, 3, 0], [3, 1, 4, 0], [4, 1, 5, 0]].map((c) => ({ a: [c[0], c[1]], b: [c[2], c[3]], seated: true })),
     });
     const SC = [
-      { cause: "brick", where: null, make: (s) => { s.brick = false; }, why: "Failures 1 and 8. USB powers the board's serial chip, so the port looks alive while every motor is dead. No LEDs is the giveaway.", hint: "Look at the LEDs before thinking about the wiring." },
-      { cause: "terminal", where: null, make: (s) => { s.loose = true; }, why: "Failure 9. The terminal screws were never tightened, so power came and went. Faults that change between identical pings are nearly always power.", hint: "Ping several times without touching anything. Does the answer stay the same?" },
+      { cause: "brick", where: null, make: (s) => { s.brick = false; }, why: "Brick off. USB powers the board's serial chip, so the port looks alive while every motor is dead. No LEDs is the giveaway.", hint: "Look at the LEDs before thinking about the wiring." },
+      { cause: "terminal", where: null, make: (s) => { s.loose = true; }, why: "Loose terminal screws, so power comes and goes. Faults that change between identical pings are nearly always power.", hint: "Ping several times without touching anything. Does the answer stay the same?" },
       { cause: "skipped", where: [4], make: (s) => { s.cables[4] = { a: [3, 1], b: [5, 0], seated: true }; s.cables.splice(5, 1); }, why: "Failure 10. wrist_flex was cabled straight to the gripper. One ID missing from the middle of the list can't be a broken chain, because a break would take everything after it too.", hint: "One ID is missing but the IDs after it still answer. What wiring allows that?" },
       { cause: "dead", where: [0], make: (s) => { s.dead.add("0:1"); }, why: "Failure 11. Dead right socket on shoulder_pan. Reseating changes nothing, and swapping that motor's plugs puts the dead socket on the board's side, so even ID 1 vanishes. That's the test that separates a bad socket from a bad cable.", hint: "Reseat first. If nothing changes, try ⇄ on the last motor that answers." },
-      { cause: "unseated", where: [4, 5], make: (s) => { s.cables[5].seated = false; }, why: "Failure 12. The gripper plug came loose during cable tidying. Only the end of the chain goes missing, and a reseat fixes it.", hint: "The end of the chain is missing. Reseat and ping again." },
+      { cause: "unseated", where: [4, 5], make: (s) => { s.cables[5].seated = false; }, why: "The gripper plug came loose during cable tidying. Only the end of the chain goes missing, and a reseat fixes it.", hint: "The end of the chain is missing. Reseat and ping again." },
       { cause: "unseated", where: [2, 3], make: (s) => { s.cables[3].seated = false; }, why: "A half-seated plug between elbow_flex and wrist_flex, the sort of thing closing a joint does. Everything past the break disappears together.", hint: "Everything past one point is missing. Reseat and ping again." },
       { cause: "dup", where: [3], make: (s) => { s.ids[3] = 1; }, why: "Two motors both answering to ID 1: a factory-fresh replacement in the wrist_flex position that never got its ID. Their replies collide, which is a different error from silence.", hint: "Read the error text. Is ID 1 silent, or is its reply corrupted? And why is ID 4 gone while 5 and 6 answer?" },
     ];

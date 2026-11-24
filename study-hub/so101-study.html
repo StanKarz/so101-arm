@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>SO-101 Study Hub</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -379,26 +380,11 @@ td.n { font-family: var(--f-mono); font-size: 13px; font-variant-numeric: tabula
 .ff-box.ok { stroke: var(--mat); fill: var(--mat-soft); stroke-width: 2.5; }
 .ff-box.bad { stroke: var(--signal); stroke-width: 2.5; }
 
-/* rig + reference */
-.check { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
-.check li { border-bottom: 1px solid var(--rule); padding: 8px 0; }
-.check label { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; cursor: pointer; }
-.check input { width: 18px; height: 18px; margin: 2px 0 0; }
-.check .why { display: block; font-size: 14px; color: var(--muted); margin-top: 2px; }
-.check li.done > label > span:first-of-type { color: var(--muted); }
-.rig-group h3, .ref-h { font-family: var(--f-display); font-stretch: 90%; font-weight: 700; font-size: 20px; margin: 8px 0 2px; }
+/* code blocks */
 pre { position: relative; background: var(--code-bg); color: var(--code-ink); font-family: var(--f-mono); font-size: 13px; line-height: 1.5; padding: 12px 14px; border-radius: 4px; margin: 0; overflow-x: auto; max-width: 100%; }
 pre .c { color: var(--code-dim); }
 .pre-wrap { position: relative; min-width: 0; max-width: 100%; }
 .pre-wrap .copy { position: absolute; top: 8px; right: 8px; font-family: var(--f-mono); font-size: 11px; padding: 2px 8px; background: var(--code-bg); color: var(--code-ink); border-color: var(--code-dim); }
-details.ref { border: 1px solid var(--rule); border-radius: 6px; background: var(--surface); }
-details.ref > summary { cursor: pointer; padding: 10px 16px; font-weight: 600; display: flex; gap: 12px; align-items: baseline; list-style-position: inside; }
-details.ref > summary span { font-family: var(--f-mono); font-size: 12px; color: var(--muted); font-weight: 400; }
-details.ref > div { padding: 2px 16px 14px; display: flex; flex-direction: column; gap: 10px; }
-details.ref ol, details.ref ul { margin: 0; padding-left: 1.3em; display: flex; flex-direction: column; gap: 5px; max-width: 72ch; }
-details.ref p { margin: 0; max-width: 72ch; }
-.vids { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 14px; }
-.vids a { color: var(--mat); }
 .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .chips button { font-family: var(--f-mono); font-size: 12px; padding: 3px 9px; border-radius: 999px; }
 .chips button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
@@ -419,6 +405,37 @@ details.ref p { margin: 0; max-width: 72ch; }
 }
 @media (max-width: 420px) { .grid-3 { grid-template-columns: minmax(0, 1fr); } }
 
+/* hidden answers */
+details.ans { margin-top: 6px; font-size: 15px; }
+details.ans > summary { cursor: pointer; font-family: var(--f-mono); font-size: 12px; color: var(--mat); width: max-content; }
+details.ans > summary::marker { color: var(--mat); }
+details.ans[open] > summary { margin-bottom: 4px; }
+details.ans > p { margin: 0; padding: 8px 12px; border-left: 3px solid var(--mat); background: var(--surface); max-width: 70ch; }
+.qs li { line-height: 1.45; }
+
+/* glossary self-test */
+#glossary.quiz .entry dt { cursor: pointer; user-select: none; }
+#glossary.quiz .entry dt::before { content: "▸ "; color: var(--muted); font-family: var(--f-mono); }
+#glossary.quiz .entry.open dt::before { content: "▾ "; }
+#glossary.quiz .entry:not(.open) dd { display: none; }
+#glossary.quiz .entry dt:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.gloss-tools button { font-size: 13px; }
+
+/* register map */
+.regmap { display: flex; flex-direction: column; gap: 10px; }
+#regmap .sec-head h3 { margin: 0; font-family: var(--f-display); font-stretch: 90%; font-weight: 700; font-size: 20px; }
+#regmap .sec-head p { margin: 2px 0 0; }
+.rm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(172px, 1fr)); gap: 6px; }
+.rm-cell { text-align: left; display: flex; flex-direction: column; gap: 1px; padding: 6px 8px; border-radius: 4px; border: 1px solid var(--rule); background: var(--paper); font-size: 13px; line-height: 1.25; }
+.rm-cell .a { font-family: var(--f-mono); font-size: 11px; color: var(--muted); }
+.rm-cell .nm { font-family: var(--f-mono); font-size: 12px; overflow-wrap: break-word; }
+.rm-cell[aria-pressed="true"] { outline: 2px solid var(--signal); outline-offset: 1px; }
+.rm-cell.E { background: var(--mat-soft); border-color: var(--mat); }
+.rm-cell.R { background: var(--surface); border-color: var(--ink); border-style: dashed; }
+.rm-cell.wrong .a::after { content: " · missed"; color: var(--signal); }
+.rm-cell.dim { opacity: 0.3; }
+.rm-key { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: var(--muted); }
+
 .chapter section h2 { font-size: clamp(20px, 3vw, 24px); }
 .chapter section .sec-num { display: none; }
 .readout b[style] { font-weight: 500; }
@@ -433,9 +450,9 @@ details.ref p { margin: 0; max-width: 72ch; }
     <a href="#plan">Plan</a>
     <a href="#day-1">Day 1</a>
     <a href="#day-2">Day 2</a>
-    <a href="#rig">Rig</a>
     <a href="#later">Days 3–4</a>
-    <a href="#reference">Reference</a>
+    <a href="#failures">Failures</a>
+    <a href="#glossary">Glossary</a>
   </nav>
   <div class="meter">
     <div class="meter-bar"><span id="p-fill"></span></div>
@@ -446,7 +463,7 @@ details.ref p { margin: 0; max-width: 72ch; }
 <header>
   <div class="eyebrow">Study hub · SO-ARM101 Pro · LeRobot 0.7.0 · your rig, your numbers</div>
   <h1>SO-101 Study Hub</h1>
-  <p class="lede">Last week's bench work in build order, with the theory you skipped, then ACT. The simulations run on the official CAD model, your calibration files and your 21 failures. The bench sheet and glossary are folded in as reference at the end, so this is the only tab you need.</p>
+  <p class="lede">The bench work in build order with the theory behind it, then ACT. The simulations run on the official CAD model and your calibration files. Every question and glossary entry hides its answer until you open it.</p>
 </header>
 
 <!-- PLAN -->
@@ -454,14 +471,14 @@ details.ref p { margin: 0; max-width: 72ch; }
   <div class="sec-head">
     <div class="sec-num">The plan</div>
     <h2>ACT first, then everything gets measured against it</h2>
-    <p>Your chain, ACT → VLA → voice → ELEGNT, is the spine of the plan (the thick green line). The Notion plan adds a hand-written ACT, the same 20-trial test on every policy, and a MuJoCo twin. One rule holds it together: nothing past the ACT stop starts until ACT has a measured success rate on the real arm. Click a stop.</p>
+    <p>The thick line is your chain: ACT → VLA → voice → ELEGNT. Nothing past the ACT stop starts until ACT has a success rate out of 20 trials on the real arm. Click a stop.</p>
   </div>
   <div class="figure">
     <div class="route-scroll"><svg class="route-svg" id="route-svg" viewBox="0 0 960 345" role="group" aria-label="Route map of the study plan"></svg></div>
     <div class="detail" id="route-detail" aria-live="polite"></div>
   </div>
   <p class="note">Same plan as <code>robotics/STUDY_PLAN.md</code> and the Notion page.</p>
-  <div class="try"><b>Two routes</b>The full route, Days 1 and 2, is about 10 hours over five evenings. The short route is the items tagged <span class="tag">short</span>: chapters 1–7, then the VAE background, the ACT paper and the explorer, about 4 h 50 over two evenings. It gives up the tutorial's classical robotics and dataset sections, the control table, your 1-D toy, and the LeRobot docs, which you'd then read the night before recording.</div>
+  <div class="try"><b>Two routes</b>Days 1–2 take about 10 hours over five evenings. The items tagged <span class="tag">short</span> take about 5 hours over two, and skip the tutorial's classical robotics and dataset sections, the register map, your 1-D toy and the LeRobot docs.</div>
 </section>
 
 <!-- DAY 1 -->
@@ -479,12 +496,12 @@ details.ref p { margin: 0; max-width: 72ch; }
   <!-- CH 1 -->
   <article class="chapter" id="ch-power" data-min="20">
     <div class="ch-head"><input type="checkbox" id="c-ch-1" aria-label="Done: chapter 1"><span class="ch-num">1</span><h3>Two arms, two voltages</h3><span class="ch-min">20 min</span><span class="tag">short</span></div>
-    <div class="fails">Failures <a href="#f-1">1</a><a href="#f-2">2</a><a href="#f-8">8</a><a href="#f-9">9</a></div>
+    <div class="fails">Failures <a href="#f-2">2</a></div>
     <div class="prose">
-      <p>Each arm is its own circuit: a brick, an adapter board and six motors in a chain. The Mac reaches the board over USB, and USB powers only the board's serial chip. With the brick off the motors have no power, so the script says <code>Motor 'gripper' was not found</code> and the fault looks like software. You met that three times (failures 1 and 8), and failure 9 was the same circuit with the terminal screws never tightened.</p>
+      <p>Each arm is its own circuit: a brick, an adapter board and six motors in a chain. USB from the Mac powers only the board's serial chip, so with the brick off a script fails with <code>Motor 'gripper' was not found</code> and the fault looks like software.</p>
     </div>
     <div class="rails">
-      <div class="rail f"><span class="node">12 V brick<small>2 A now, 5 A on order</small></span><span class="arrow">→</span><span class="node">Follower board<small><span class="tape">F · 12V</span> …5B7B0168461</small></span><span class="arrow">→</span><span class="node">6 × C047<small>12 V, 1:345</small></span><span class="usb">USB → Mac: data only</span></div>
+      <div class="rail f"><span class="node">12 V brick<small>5 A since 14 Nov</small></span><span class="arrow">→</span><span class="node">Follower board<small><span class="tape">F · 12V</span> …5B7B0168461</small></span><span class="arrow">→</span><span class="node">6 × C047<small>12 V, 1:345</small></span><span class="usb">USB → Mac: data only</span></div>
       <div class="rail l"><span class="node">5 V brick<small>leader only</small></span><span class="arrow">→</span><span class="node">Leader board<small><span class="tape">L · 5V</span> …5B7B0093921</small></span><span class="arrow">→</span><span class="node">C001 · 2 × C044 · 3 × C046<small>7.4 V motors on 5 V</small></span><span class="usb">USB → Mac: data only</span></div>
     </div>
     <div class="prose">
@@ -510,7 +527,7 @@ details.ref p { margin: 0; max-width: 72ch; }
   <!-- CH 2 -->
   <article class="chapter" id="ch-bus" data-min="30">
     <div class="ch-head"><input type="checkbox" id="c-ch-2" aria-label="Done: chapter 2"><span class="ch-num">2</span><h3>One wire, six listeners</h3><span class="ch-min">30 min</span><span class="tag">short</span></div>
-    <div class="fails">Failures <a href="#f-3">3</a><a href="#f-10">10</a><a href="#f-11">11</a><a href="#f-12">12</a></div>
+    <div class="fails">Failures <a href="#f-3">3</a><a href="#f-10">10</a><a href="#f-11">11</a></div>
     <div class="prose">
       <p>A ping to ID 4 is six bytes on the white wire: <code>FF FF 04 02 01 F8</code>. That's the header, the ID, a length, the instruction, and a checksum (the inverted low byte of 04 + 02 + 01). At 1 Mbaud and 10 bits per byte it takes 60 µs. A sync read of all six positions is a 14-byte request and six 8-byte replies, 62 bytes, about 0.6 ms on the wire. A 60 Hz teleop loop has 16.7 ms per tick, so the bus has room to spare. You measured 200 of 200 sync reads clean at 11.8–12.0 V.</p>
       <p>The ID is the only address, and every new motor ships as ID 1, which is why setup wants one motor on the board at a time and why failure 3 had you reaching for buried cables. The two sockets on a motor are joined inside the case, so there's no in or out. Anything that breaks the chain removes every motor after it, so <em>which IDs answer</em> tells you where to look.</p>
@@ -759,7 +776,7 @@ details.ref p { margin: 0; max-width: 72ch; }
       </div>
       <div class="controls tight">
         <button type="button" class="primary" id="tl-jerk">Start 90° out of position</button>
-        <span class="note">The failure the bench sheet warned about: leader and follower far apart at start.</span>
+        <span class="note">Leader and follower far apart when teleop starts.</span>
       </div>
       <div class="readout" id="tl-readout"></div>
     </div>
@@ -804,36 +821,62 @@ details.ref p { margin: 0; max-width: 72ch; }
   <!-- CH 7 -->
   <article class="chapter" id="ch-print" data-min="10">
     <div class="ch-head"><input type="checkbox" id="c-ch-7" aria-label="Done: chapter 7"><span class="ch-num">7</span><h3>Printed parts are approximate</h3><span class="ch-min">10 min</span><span class="tag">short</span></div>
-    <div class="fails">Failures <a href="#f-13">13</a><a href="#f-14">14</a><a href="#f-15">15</a><a href="#f-16">16</a><a href="#f-17">17</a><a href="#f-18">18</a><a href="#f-21">21</a></div>
+    <div class="fails">Failures <a href="#f-13">13</a><a href="#f-16">16</a><a href="#f-21">21</a></div>
     <div class="prose">
       <p>FDM PLA comes out slightly off the CAD, and the wrist-cam mount is a third-party part whose README says it "still requires adaption to the new camera". Three fits needed hand work on one bracket: the hole pitch (27.0 mm against about 28 mm), the connector notch, and the flap in its slot. Slicing the STL with trimesh and fitting Hough circles to photos gave you the 27.0 against 28 measurement, which is a useful trick: CAD files can answer "why doesn't this fit" before you cut anything.</p>
       <p>Two rules came out of it. Check the holes line up before removing any plastic. Take material off the cheap part (the mount), never the structural one (the housing).</p>
-      <p>Screw length comes down to a stack you can measure. Push an M3×10 through with no nut, and depth-rod the tip past the inner wall to get protrusion \(p\). The nut's seat depth is then \(T = 10 - p\), and the screw has to land in \([T - 0.9,\ T]\): long enough to catch the nut, short enough not to foul the motor. The README's order is what makes this work. Nuts flush in the recesses, motor 6 back in so it backs the nuts, M3×8 last from outside. With the motor out, the screw just pushes the nut away, which is why 8 mm looked too short on 31 Oct.</p>
+      <p>Screw length comes down to a stack you can measure. Push an M3×10 through with no nut, and depth-rod the tip past the inner wall to get protrusion \(p\). The nut's seat depth is then \(T = 10 - p\), and the screw has to land in \([T - 0.9,\ T]\): long enough to catch the nut, short enough not to foul the motor. The README's order is what makes this work. Nuts flush in the recesses, motor 6 back in so it backs the nuts, M3×8 last from outside. With the motor out, the screw just pushes the nut away, which is why 8 mm looked too short on 31 Oct. Done in that order, the flap bolted on 14 Nov.</p>
     </div>
     <p class="try"><b>Try</b>Open the 3D arm's <a href="#joints">Wrist view</a> and find the mount's flap and motor 6 behind it. Then look at wrist_roll: the camera rides on the far side of that joint, so the wrist view rolls with the gripper while the scene view doesn't.</p>
   </article>
 
   <!-- READING -->
   <ul class="items">
-    <li class="item" data-min="25"><input type="checkbox" id="c-d1-7" aria-label="Done: notes"><div class="item-body"><span class="item-title">Your own notes</span><div class="item-meta"><span class="kind">Markdown</span><span>25 min</span></div><p>In this order: <code>robotics/STUDY_PLAN.md</code> (5 min), <code>blog/posts/first-two-robots/notes.md</code> (10 min, the best record of the week), <code>so101/LOG.md</code> (1 min), <code>robotics/IDEAS.md</code> (10 min: backlog, ELEGNT and Bercik notes). Skip <code>so101/README.md</code>, which is 7 lines of setup.</p></div></li>
-    <li class="item" data-min="45"><input type="checkbox" id="c-d1-4" aria-label="Done: tutorial section 1"><div class="item-body"><a class="item-title" href="https://lerobot-robot-learning-tutorial.hf.space/#introduction" target="_blank" rel="noopener">Robot Learning: A Tutorial, §1 Introduction</a><div class="item-meta"><span class="kind">Tutorial</span><span>Capuano et al., Hugging Face, 2025</span><span>45 min</span></div><p>The spine of all four days, with LeRobot code throughout. §1.1 describes LeRobotDataset, the format your demos will be saved in. Every tutorial link goes to Hugging Face's web edition and jumps to its section; that edition doesn't print the section numbers used here.</p></div></li>
+    <li class="item" data-min="30"><input type="checkbox" id="c-d1-7" aria-label="Done: notes"><div class="item-body"><span class="item-title">Your own notes</span><div class="item-meta"><span class="kind">Markdown</span><span>30 min</span></div><p><code>robotics/STUDY_PLAN.md</code>, <code>robotics/BRINGUP.md</code>, <code>blog/posts/first-two-robots/notes.md</code>, then <code>robotics/IDEAS.md</code> for the backlog and the ELEGNT notes.</p></div></li>
+    <li class="item" data-min="45"><input type="checkbox" id="c-d1-4" aria-label="Done: tutorial section 1"><div class="item-body"><a class="item-title" href="https://lerobot-robot-learning-tutorial.hf.space/#introduction" target="_blank" rel="noopener">Robot Learning: A Tutorial, §1 Introduction</a><div class="item-meta"><span class="kind">Tutorial</span><span>Capuano et al., Hugging Face, 2025</span><span>45 min</span></div><p>The spine of all four days, with LeRobot code throughout. §1.1 describes LeRobotDataset, the format your demos are saved in. One text, three editions: the <a href="https://arxiv.org/html/2510.12403" target="_blank" rel="noopener">arXiv HTML</a> has the section numbers, which the § links in the questions use; the web edition is what these reading links open; and <a href="https://huggingface.co/learn/robotics-course/unit0/1" target="_blank" rel="noopener">the Hugging Face course</a> covers §1–2 so far, with quizzes.</p></div></li>
   </ul>
 
   <div class="evening">Evening 3 · classical robotics</div>
   <ul class="items">
     <li class="item" data-min="60"><input type="checkbox" id="c-d1-5" aria-label="Done: tutorial section 2"><div class="item-body"><a class="item-title" href="https://lerobot-robot-learning-tutorial.hf.space/#classical-robotics" target="_blank" rel="noopener">Tutorial §2 Classical Robotics</a><div class="item-meta"><span class="kind">Tutorial</span><span>60 min</span></div><p>A planar arm with forward and inverse kinematics and a feedback loop, then why that approach struggles once contact is involved. It leads straight into the IK you'll write on the MuJoCo twin. The same chapter is also <a href="https://huggingface.co/learn/robotics-course/unit2/1" target="_blank" rel="noopener">Unit 2 of Hugging Face's robotics course</a>, which is built from this tutorial.</p></div></li>
-    <li class="item" data-min="20"><input type="checkbox" id="c-d1-6" aria-label="Done: control table"><div class="item-body"><span class="item-title">The STS3215 control table in LeRobot's source</span><div class="item-meta"><span class="kind">Code</span><span>20 min</span></div><p><code>so101/.venv/lib/python3.13/site-packages/lerobot/motors/feetech/tables.py</code>, from line 41. Each register is an (address, bytes) pair. Find every one your scripts read or wrote this week, and note which sit in EEPROM.</p></div></li>
+    <li class="item" data-min="20"><input type="checkbox" id="c-d1-6" aria-label="Done: register map"><div class="item-body"><a class="item-title" href="#regmap">What the motor remembers: the register map</a><div class="item-meta"><span class="kind">On this page</span><span>20 min</span></div><p>Each STS3215 stores its settings and live readings in numbered registers. Some survive unplugging the brick and some don't. Guess which before you reveal them.</p></div></li>
   </ul>
+  <div class="regmap" id="regmap">
+  <div class="sec-head"><h3>What the motor remembers</h3><p>The registers your scripts and LeRobot touched, in address order. Click one, then say where it lives.</p></div>
+  <div class="figure">
+    <div class="controls tight">
+      <div class="seg" id="rm-filter" role="group" aria-label="Show registers touched by">
+        <button type="button" data-f="all" aria-pressed="true">All</button>
+        <button type="button" data-f="setup" aria-pressed="false">Motor setup</button>
+        <button type="button" data-f="cal" aria-pressed="false">Calibration</button>
+        <button type="button" data-f="connect" aria-pressed="false">Every connect</button>
+        <button type="button" data-f="loop" aria-pressed="false">Teleop loop</button>
+      </div>
+      <button type="button" id="rm-reveal">Reveal all</button>
+      <button type="button" id="rm-hide">Hide again</button>
+    </div>
+    <div class="rm-grid" id="rm-grid" role="group" aria-label="STS3215 registers"></div>
+    <div class="controls tight" id="rm-guess">
+      <span class="lbl" id="rm-which">Pick a register</span>
+      <button type="button" data-g="E" disabled>EEPROM: survives power-off</button>
+      <button type="button" data-g="R" disabled>RAM: resets at power-off</button>
+    </div>
+    <div class="log" id="rm-log" aria-live="polite">Start with ID: you set it once on 25 Oct and it still answers.</div>
+    <div class="readout" id="rm-score"></div>
+  </div>
+    <details class="ans"><summary>What EEPROM is, and the rule</summary><p>EEPROM (electrically erasable programmable read-only memory) keeps its contents with the power off. It is slow to write and wears out after a limited number of writes, typically rated around 100,000. RAM is fast and never wears, but forgets everything when power goes. The servo's microcontroller copies its EEPROM settings into working memory at power-on. On the STS3215 everything below address 40 is EEPROM and Torque_Enable at 40 is the first RAM register, which is why a motor powers up limp. The <code>Lock</code> register guards EEPROM; LeRobot opens it whenever torque is off, so its writes to P, I, D and the gripper limits on every connect persist after it exits.</p></details>
+    <p class="note">From LeRobot 0.7.0 the table lives in the Rust driver, not in a Python file. Print the whole thing with <code>uv run python -c "import rustypot; [print(r.addr, r.size, r.name) for r in rustypot.Sts3215PyController.registers()]"</code>. The EEPROM/RAM split comes from Feetech's memory table; the driver doesn't record it.</p>
+  </div>
   <div class="qs">
     <div class="qs-head">Answer in your own words</div>
     <ul>
-      <li>With the dead socket, why did ID 1 answer from one socket while nothing answered from the other? Draw the bus as it was wired.<span class="where">the fault-finder and failure 11</span></li>
-      <li>Your elbow has 195° of travel. How far from the middle can you hold it when you press Enter before range recording wraps?<span class="where">the encoder seam, chapter 4</span></li>
-      <li>Why does the follower trail the leader slightly in teleop? Name two settings from this week that cause it.<span class="where">the teleop sim and the glossary: PID, <code>max_relative_target</code></span></li>
-      <li>Why can't the gripper approach a block from the side, out of the arm's plane?<span class="where">the 3D arm, arm plane on</span></li>
-      <li>In the "Reach forward" pose, which joint carries the most load and why? What does that say about the leader's motor choice?<span class="where">the load bars, chapter 1</span></li>
-      <li>What does the tutorial say limits dynamics-based control, and which of those limits shows up when your gripper closes on a block?<span class="where">tutorial §2.4</span></li>
-      <li>In a LeRobotDataset, where does a camera frame live, and where does a joint position live?<span class="where">tutorial §1.1</span></li>
+      <li>With the dead socket, why did ID 1 answer from one socket while nothing answered from the other? Draw the bus as it was wired.<span class="where"><a href="#fault">the fault-finder</a> and <a href="#f-11">failure 11</a></span><details class="ans"><summary>Answer</summary><p>The two sockets are joined inside the case, so a dead socket only cuts off whatever is plugged into it. Board cable in the good socket: motor 1 has power and answers, but the cable on to motors 2–6 leaves through the dead socket, so they're silent. Board cable in the dead socket: motor 1 gets no power, and everything else hangs off motor 1, so nothing answers. Drawn: board → [good | dead] shoulder_pan → shoulder_lift → … → gripper.</p></details></li>
+      <li>Your elbow has 195° of travel. How far from the middle can you hold it when you press Enter before range recording wraps?<span class="where"><a href="#seam">the encoder seam</a>, chapter 4</span><details class="ans"><summary>Answer</summary><p>About 82°. Calibration makes the held pose read 2047, half a turn (180°) from the seam. The travel reaches 97.5° either side of its true middle, so holding δ off-centre puts one end 97.5° + |δ| from the held pose, and that has to stay under 180°: |δ| < 82.5°. The table's 81° is the same sum on your measured offsets.</p></details></li>
+      <li>Why does the follower trail the leader slightly in teleop? Name two settings from this week that cause it.<span class="where"><a href="#teleop">the teleop sim</a> and the glossary: PID, <code>max_relative_target</code></span><details class="ans"><summary>Answer</summary><p>P = 16 with I = 0: with no integral term the follower settles short of the goal by the gravity torque over the gain, and LeRobot softens P to cut jitter, which widens that gap. D = 32 resists velocity, so fast moves fall further behind. On top of that the goal only updates at 60 Hz, and until 14 Nov the 2 A brick sagged on fast moves. <code>max_relative_target</code> would add lag if you set it; it's off by default.</p></details></li>
+      <li>Why can't the gripper approach a block from the side, out of the arm's plane?<span class="where"><a href="#joints">the 3D arm</a>, arm plane on</span><details class="ans"><summary>Answer</summary><p>Joints 2, 3 and 4 have parallel axes, so they all move the hand within one vertical plane, and shoulder_pan only turns that plane. wrist_roll spins the hand about its own approach axis, which stays in the plane. With five arm joints nothing can tip the approach direction out of the plane; that would take a sixth, a wrist yaw.</p></details></li>
+      <li>In the "Reach forward" pose, which joint carries the most load and why? What does that say about the leader's motor choice?<span class="where"><a href="#joints">the load bars</a> and <a href="#ch-power">chapter 1</a></span><details class="ans"><summary>Answer</summary><p>shoulder_lift. Its axis is horizontal and every link beyond it hangs off it at the longest lever arm, so \(\tau_j\) is largest there, with the elbow second. shoulder_pan's axis is vertical, so gravity barely loads it. That's why the leader's only 1:345 motor sits at shoulder_lift: the high ratio's friction holds the leader up when you let go, while the wrist joints carry almost nothing and get 1:147 so they stay light under your fingers.</p></details></li>
+      <li>What does the tutorial say limits dynamics-based control, and which of those limits shows up when your gripper closes on a block?<span class="where"><a href="https://arxiv.org/html/2510.12403#S2.SS4" target="_blank" rel="noopener">tutorial §2.4</a></span><details class="ans"><summary>Answer</summary><p>Four limits: chaining separate modules (sensing, planning, IK, control) is brittle and errors compound across them; every new task or sensor needs custom engineering, so it doesn't scale; analytical models of contact, friction and compliance are approximations; and the approach can't use the growing pool of robot data. The third shows up at your gripper: how a PLA jaw grips and slips on a block is what a hand-written model gets wrong. The tutorial's own figure uses friction at the gripper as its example.</p></details></li>
+      <li>In a LeRobotDataset, where does a camera frame live, and where does a joint position live?<span class="where"><a href="https://arxiv.org/html/2510.12403#S1.SS1" target="_blank" rel="noopener">tutorial §1.1</a></span><details class="ans"><summary>Answer</summary><p>Joint positions are rows in Parquet tables, one row per frame, with <code>observation.state</code> (follower) and <code>action</code> (leader) next to the timestamp, frame index and episode index. Camera frames are encoded into MP4 files, grouped by camera, with several episodes per file in format v3.0. JSON metadata ties the two together: feature schema, fps, normalisation statistics and where each episode starts and ends.</p></details></li>
     </ul>
   </div>
 </div>
@@ -864,13 +907,13 @@ details.ref p { margin: 0; max-width: 72ch; }
     <div class="qs">
       <div class="qs-head">Answer in your own words</div>
       <ul>
-        <li>Why does predicting k actions at once reduce compounding error? Put it in terms of how many times the policy is queried over one episode.<span class="where">ACT, method section</span></li>
-        <li>What does the CVAE's latent z capture during training, and what is z set to at test time?<span class="where">ACT, method section</span></li>
-        <li>What does temporal ensembling average, and how are older predictions weighted against newer ones?<span class="where">ACT, method section</span></li>
-        <li>What happens in the ablations when the chunk size drops to 1?<span class="where">ACT, ablations</span></li>
-        <li>Where are ALOHA's four cameras, and which of those views does your wrist and front pair lack?<span class="where">ACT, hardware section</span></li>
-        <li>What does <code>lerobot-record</code> save for each frame, and what happens between episodes?<span class="where">LeRobot IL docs</span></li>
-        <li>Given all of the above, write three rules for how you'll record your 50 demos.<span class="where">your own notes</span></li>
+        <li>Why does predicting k actions at once reduce compounding error? Put it in terms of how many times the policy is queried over one episode.<span class="where"><a href="https://arxiv.org/abs/2304.13705" target="_blank" rel="noopener">ACT</a>, method section</span><details class="ans"><summary>Answer</summary><p>An episode of T steps queried every step means T decisions, each a chance to add an error the next one starts from. With chunks of k the policy is queried T/k times, so the effective horizon shrinks k-fold. At 30 fps and k = 100, a 20 s episode is 6 queries instead of 600.</p></details></li>
+        <li>What does the CVAE's latent z capture during training, and what is z set to at test time?<span class="where"><a href="https://arxiv.org/abs/2304.13705" target="_blank" rel="noopener">ACT</a>, method section</span><details class="ans"><summary>Answer</summary><p>The style of that particular demonstration: whatever varies between human demos that the observation doesn't explain, like speed or a hesitation. The encoder sees the joint state and the true action chunk and outputs z. At test time the encoder is dropped and z = 0, the prior's mean, so the policy acts deterministically.</p></details></li>
+        <li>What does temporal ensembling average, and how are older predictions weighted against newer ones?<span class="where"><a href="https://arxiv.org/abs/2304.13705" target="_blank" rel="noopener">ACT</a>, method section</span><details class="ans"><summary>Answer</summary><p>Every chunk predicted in the last k steps contains an action for the current timestep, and temporal ensembling averages them with weights \(w_i = e^{-m i}\), where \(w_0\) is the oldest. So older predictions weigh more, and a smaller m lets new observations in faster. It needs a query every step, which is the 41 ms against 33 ms problem in the explorer's note.</p></details></li>
+        <li>What happens in the ablations when the chunk size drops to 1?<span class="where"><a href="https://arxiv.org/abs/2304.13705" target="_blank" rel="noopener">ACT</a>, ablations</span><details class="ans"><summary>Answer</summary><p>Success collapses. At k = 1 ACT is a one-step policy and the benefit of chunking disappears; the chunk-size plot climbs steeply from k = 1 and levels off around k = 100. Check the exact percentages in the figure.</p></details></li>
+        <li>Where are ALOHA's four cameras, and which of those views does your wrist and front pair lack?<span class="where"><a href="https://arxiv.org/abs/2304.13705" target="_blank" rel="noopener">ACT</a>, hardware section</span><details class="ans"><summary>Answer</summary><p>One on each follower wrist, one at the front and one looking down from the top. You lack the top-down view and the second wrist, since ALOHA is bimanual.</p></details></li>
+        <li>What does <code>lerobot-record</code> save for each frame, and what happens between episodes?<span class="where"><a href="https://huggingface.co/docs/lerobot/il_robots" target="_blank" rel="noopener">LeRobot IL docs</a></span><details class="ans"><summary>Answer</summary><p>Each camera image, the follower's joints as <code>observation.state</code>, the leader's as <code>action</code>, plus timestamp, indices and the task string. Images are encoded to MP4 during or after each episode. Between episodes a reset period (<code>reset_time_s</code>) runs unrecorded while you put the scene back. → ends an episode early, ← re-records it, Esc stops.</p></details></li>
+        <li>Given all of the above, write three rules for how you'll record your 50 demos.<span class="where">your own notes</span><details class="ans"><summary>Answer</summary><p>One version. Freeze the scene (tape marks, lighting, patch, block) from demo 1 to the last evaluation trial. Do the task one way, smoothly and without pausing, because hesitations and mixed strategies are exactly what z and chunking have to absorb. Spread the block's start positions over a grid inside the reach, and start every episode from the same rest pose.</p></details></li>
       </ul>
     </div>
     
@@ -909,57 +952,12 @@ details.ref p { margin: 0; max-width: 72ch; }
 
 </section>
 
-<!-- RIG -->
-<section id="rig">
-  <div class="sec-head">
-    <div class="sec-num">Between reading sessions</div>
-    <h2>Finish the rig</h2>
-    <p>Everything between a working teleop and the first recorded episode, from the backlog in <code>IDEAS.md</code>. Commands assume <code>so101/</code> as the working directory.</p>
-  </div>
-  <div class="rig-group">
-    <h3>Wrist camera</h3>
-    <ul class="check">
-      <li><label><input type="checkbox" id="r-flap"><span>Bolt the flap, README order: motor 6 out, nuts flush in the recesses, motor 6 back in with its M2 screws, M3×8 last from outside<span class="why">Length check in chapter 7. Afterwards run <code>check_ids.py</code> and check clearance against the jaw's horn plate and the wrist motor. Log the outcome as failure 21.</span></span></label></li>
-      <li><label><input type="checkbox" id="r-focus"><span>Focus on an object 10–15 cm in front of the jaw tips<span class="why">QuickTime live view, twist the lens, then leave it alone.</span></span></label></li>
-      <li><label><input type="checkbox" id="r-cable"><span>Route the cable along the arm with slack loops at wrist_flex and wrist_roll<span class="why">Open the gripper fully and check the moving jaw clears it.</span></span></label></li>
-    </ul>
-  </div>
-  <div class="rig-group">
-    <h3>Scene camera</h3>
-    <ul class="check">
-      <li><label><input type="checkbox" id="r-tripod"><span>Tripod about 50 cm in front of the follower, lens about 30 cm up, tilted down, feet taped<span class="why">Use the <a href="#camsim">camera sim</a> first. Base and full reach in frame, background the desk rather than the room.</span></span></label></li>
-      <li><label><input type="checkbox" id="r-leader"><span>Leader and operator out of frame</span></label></li>
-      <li><label><input type="checkbox" id="r-patch"><span>Plain patch of about 40 × 40 cm in front of the follower, kept the same from recording to evaluation</span></label></li>
-      <li><label><input type="checkbox" id="r-heat"><span>Heat test for 10 minutes<span class="why">If the Insta360 overheats, fall back to a fixed-focus USB webcam.</span></span></label></li>
-    </ul>
-    <pre><button class="copy" type="button">Copy</button>eval "$(uv run python camera_index.py --export)"   <span class="c"># sets WRIST_CAM and FRONT_CAM by name</span>
-uv run python check_camera.py $FRONT_CAM --size 640x360 --seconds 600</pre>
-  </div>
-  <div class="rig-group">
-    <h3>Software and power</h3>
-    <ul class="check">
-      <li><label><input type="checkbox" id="r-extra"><span>Add the viz and dataset extras, and ffmpeg if it's missing</span></label></li>
-      <li><label><input type="checkbox" id="r-teleop"><span>Teleop with both cameras in the Rerun viewer<span class="why">Boards stay on the 2× USB-A adapter, cameras on the UGREEN hub.</span></span></label></li>
-      <li><label><input type="checkbox" id="r-brick"><span>Order a 12 V 5 A brick with the same plug<span class="why">Current one is 2.0 A / 24 W. The load bars in chapter 3 show why slow moves got away with it.</span></span></label></li>
-      <li><label><input type="checkbox" id="r-seeed"><span>Report the dead-socket motor to Seeed<span class="why">It now sits at the gripper, the end of the chain, where it needs only one socket.</span></span></label></li>
-    </ul>
-    <pre><button class="copy" type="button">Copy</button>uv add "lerobot[feetech,viz,dataset]"
-source ports.sh
-eval "$(uv run python camera_index.py --export)"
-uv run lerobot-teleoperate \
-  --robot.type=so101_follower --robot.port=$FOLLOWER_PORT --robot.id=follower \
-  --robot.cameras="{ wrist: {type: opencv, index_or_path: $WRIST_CAM, width: 640, height: 480, fps: 30}, front: {type: opencv, index_or_path: $FRONT_CAM, width: 640, height: 360, fps: 30}}" \
-  --teleop.type=so101_leader --teleop.port=$LEADER_PORT --teleop.id=leader \
-  --display_data=true</pre>
-  </div>
-</section>
-
 <!-- LATER -->
 <section id="later">
   <div class="sec-head">
     <div class="sec-num">After the first ACT run</div>
     <h2>Days 3 and 4</h2>
-    <p>Leave these until you have real training curves and failures to think with. They complete the four papers for the post. Compounding error and the arc from per-task policies to fine-tuned VLAs make more sense once you've watched your own ACT fail.</p>
+    <p>Leave these until your own ACT has trained and failed. They complete the four papers for the post.</p>
   </div>
     <div class="day" id="day-3">
     <div class="day-head">
@@ -978,11 +976,11 @@ uv run lerobot-teleoperate \
     <div class="qs">
       <div class="qs-head">Answer in your own words</div>
       <ul>
-        <li>What does multimodal mean for actions, and why does a regression loss turn two good demos into one bad one?<span class="where">Diffusion Policy, introduction</span></li>
-        <li>ACT faces the same problem. What does it use to cope, instead of diffusion?<span class="where">compare ACT's method with Diffusion Policy's</span></li>
-        <li>What does π0 use flow matching for, and what is its action expert attached to?<span class="where">π0, model section</span></li>
-        <li>What does SmolVLA give up to run on a laptop, and what problem does async inference solve?<span class="where">tutorial §4.4 and §5.4</span></li>
-        <li>For the Phase 2B comparison: which of ACT's assumptions does fine-tuning SmolVLA remove?<span class="where">your own notes</span></li>
+        <li>What does multimodal mean for actions, and why does a regression loss turn two good demos into one bad one?<span class="where"><a href="https://arxiv.org/abs/2303.04137" target="_blank" rel="noopener">Diffusion Policy</a>, introduction</span><details class="ans"><summary>Answer</summary><p>Several different actions are right for the same observation, like passing an obstacle on the left or on the right. Mean squared error is minimised by the average of the targets, so the model predicts the midpoint of left and right: straight into the obstacle.</p></details></li>
+        <li>ACT faces the same problem. What does it use to cope, instead of diffusion?<span class="where">compare ACT's method with Diffusion Policy's</span><details class="ans"><summary>Answer</summary><p>The CVAE latent z, which lets a demo's choice be encoded rather than averaged away, and chunking, which commits to one mode for a whole chunk. With z = 0 at test time it settles on one style instead of sampling between modes.</p></details></li>
+        <li>What does π0 use flow matching for, and what is its action expert attached to?<span class="where"><a href="https://arxiv.org/abs/2410.24164" target="_blank" rel="noopener">π0</a>, model section</span><details class="ans"><summary>Answer</summary><p>To generate continuous action chunks: it learns a velocity field that carries noise to actions, integrated in a few steps at inference. The action expert is a smaller set of transformer weights attached to a pretrained vision-language model (PaliGemma), attending to its image and language tokens.</p></details></li>
+        <li>What does SmolVLA give up to run on a laptop, and what problem does async inference solve?<span class="where"><a href="https://arxiv.org/html/2510.12403#S4.SS4" target="_blank" rel="noopener">tutorial §4.4</a> and <a href="https://arxiv.org/html/2510.12403#S5.SS4" target="_blank" rel="noopener">§5.4</a></span><details class="ans"><summary>Answer</summary><p>Size: a small VLM with fewer visual tokens per frame and only part of its layers, about 450M parameters against π0's 3.3B, trained on community datasets. Async inference computes the next chunk while the arm is still playing the current one, so there's no pause at chunk boundaries.</p></details></li>
+        <li>For the Phase 2B comparison: which of ACT's assumptions does fine-tuning SmolVLA remove?<span class="where">your own notes</span><details class="ans"><summary>Answer</summary><p>That everything is learned from your 50 demos. ACT starts from ImageNet features and knows nothing about language or other robots, and it does one task with no instruction. SmolVLA starts with vision-language and multi-robot priors and takes the task as text, so it should generalise further from the same demos. Phase 2B tests whether it does.</p></details></li>
       </ul>
     </div>
     <div class="build" id="build-2">
@@ -1012,142 +1010,12 @@ uv run lerobot-teleoperate \
     <div class="qs">
       <div class="qs-head">Answer in your own words</div>
       <ul>
-        <li>What does π0.5 train on that π0 didn't, and what does that buy in a home it has never seen?<span class="where">π0.5, introduction and method</span></li>
-        <li>In one sentence each: what did each paper change about the one before it?<span class="where">your outline</span></li>
+        <li>What does π0.5 train on that π0 didn't, and what does that buy in a home it has never seen?<span class="where"><a href="https://arxiv.org/abs/2504.16054" target="_blank" rel="noopener">π0.5</a>, introduction and method</span><details class="ans"><summary>Answer</summary><p>A mix: data from many robots including mobile manipulators in real homes, web data (captioning, question answering, object detection), and high-level labels for which subtask comes next. In an unseen home it can break a request like cleaning the kitchen into subtasks, and act on objects it only knows from web data.</p></details></li>
+        <li>In one sentence each: what did each paper change about the one before it?<span class="where">your outline</span><details class="ans"><summary>Answer</summary><p>One version. ACT made fine manipulation learnable from about 50 demos on cheap arms by predicting chunks with a CVAE. Diffusion Policy replaced regression with denoising, so multimodal demos stop averaging out. π0 put a flow-matching action expert on a pretrained VLM trained across many robots. π0.5 co-trained that recipe with web data and subtask prediction so it works in homes it hasn't seen.</p></details></li>
       </ul>
     </div>
   </div>
 
-</section>
-
-<!-- REFERENCE -->
-<section id="reference">
-  <div class="sec-head">
-    <div class="sec-num">Reference</div>
-    <h2>Bench sheet</h2>
-    <p>The old bench sheet, corrected to what you actually ended up doing. Open a stage when you need it, for a rebuild or a motor swap. The <a href="https://huggingface.co/docs/lerobot/so101" target="_blank" rel="noopener">HF SO-101 guide</a> and its videos stay the source for which part goes where.</p>
-  </div>
-
-  <details class="ref"><summary>Motor table and sorting <span>IDs, ratios, stickers, screws</span></summary><div>
-    <div class="tbl"><table>
-      <thead><tr><th>ID · joint</th><th>Follower (12 V)</th><th>Leader (7.4 V)</th></tr></thead>
-      <tbody>
-        <tr><td class="n">1 shoulder_pan</td><td class="n">1:345</td><td class="n">1:191 C044</td></tr>
-        <tr><td class="n">2 shoulder_lift</td><td class="n">1:345</td><td class="n">1:345 C001</td></tr>
-        <tr><td class="n">3 elbow_flex</td><td class="n">1:345</td><td class="n">1:191 C044</td></tr>
-        <tr><td class="n">4 wrist_flex</td><td class="n">1:345</td><td class="n">1:147 C046</td></tr>
-        <tr><td class="n">5 wrist_roll</td><td class="n">1:345</td><td class="n">1:147 C046</td></tr>
-        <tr><td class="n">6 gripper</td><td class="n">1:345</td><td class="n">1:147 C046</td></tr>
-      </tbody>
-    </table></div>
-    <p>Follower stickers read C018 or C047. Tag every motor with tape as you sort: <span class="tape">F</span> or <span class="tape">L · C001</span> and so on. Screws: M2×6 for motor to frame (PH0 bit), M3×6 for horns and links (PH1 bit). Wrist-cam mount: 2× M3×8 and 2× M3 hex nuts, not in the kit.</p>
-    <p>Boards take power through the green two-screw terminal, not the barrel. Use the barrel-to-bare-wire pigtails: red into <code>+</code>, black into <code>−</code>, then tighten (failure 9). If a board has A/B jumper caps, both go on B (USB).</p>
-  </div></details>
-
-  <details class="ref"><summary>Software and motor IDs <span>before assembly</span></summary><div>
-    <pre><button class="copy" type="button">Copy</button><span class="c"># find each board's port: plug in USB + power, run, unplug when asked</span>
-uv run lerobot-find-port
-<span class="c"># yours are saved: source ports.sh</span>
-
-uv run lerobot-setup-motors --robot.type=so101_follower --robot.port=$FOLLOWER_PORT
-uv run lerobot-setup-motors --teleop.type=so101_leader --teleop.port=$LEADER_PORT
-
-<span class="c"># swap one motor later, only that motor on the board</span>
-uv run python set_motor_id.py $LEADER_PORT wrist_roll
-<span class="c"># check names against joints, and voltage variants</span>
-uv run python check_ids.py $LEADER_PORT
-uv run python inspect_motors.py $LEADER_PORT</pre>
-    <p>The script asks in reverse: gripper (6), wrist_roll (5), wrist_flex (4), elbow_flex (3), shoulder_lift (2), shoulder_pan (1). Plug in one motor, press Enter, write the ID on its tape, unplug. For the leader the prompt decides the gear ratio: C001 at <code>shoulder_lift</code>, C044 at <code>shoulder_pan</code> and <code>elbow_flex</code>, C046 at the wrist joints and gripper. Do this before building (failure 3).</p>
-  </div></details>
-
-  <details class="ref"><summary>Build the follower <span>joints, screws, habits</span></summary><div>
-    <div class="vids">
-      <a href="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/lerobot/Joint1_v2.mp4" target="_blank" rel="noopener">Joint 1 video</a>
-      <a href="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/lerobot/Joint2_v2.mp4" target="_blank" rel="noopener">Joint 2</a>
-      <a href="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/lerobot/Joint3_v2.mp4" target="_blank" rel="noopener">Joint 3</a>
-      <a href="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/lerobot/Joint4_v2.mp4" target="_blank" rel="noopener">Joint 4</a>
-      <a href="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/lerobot/Joint5_v2.mp4" target="_blank" rel="noopener">Joint 5</a>
-      <a href="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/lerobot/Gripper_v2.mp4" target="_blank" rel="noopener">Gripper</a>
-    </div>
-    <p>For every joint: plug the 3-pin cable in before the motor goes into its pocket. Two horns per motor, the output horn with an M3×6 and the other free. Press the horn on square; a silent, free-swinging joint means it isn't seated on the spline. M2 screws into plastic go snug, then stop. After each joint, swing it slowly by hand, unpowered, to check the cable has slack.</p>
-    <ol>
-      <li>Joint 1 · base: motor into base (4× M2), motor holder (2× M2), shoulder (4× M3 top, 4× M3 bottom), shoulder motor holder</li>
-      <li>Joint 2 · shoulder lift: slide in from the top (4× M2), upper arm (4× M3 each side)</li>
-      <li>Joint 3 · elbow: motor (4× M2), forearm (4× M3 each side)</li>
-      <li>Joint 4 · wrist flex: holder on, motor in (4× M2)</li>
-      <li>Joint 5 · wrist roll: motor into wrist holder (2× M2 front), one horn only (M3), wrist to motor 4 (4× M3 each side). Check which way round it goes (failure 18)</li>
-      <li>Gripper: body to wrist horn (4× M3), motor in (2× M2 each side), both horns, claw (4× M3 each side). If the wrist cam is going on, the two M3 nuts go in before the motor (failure 16)</li>
-      <li>Daisy-chain 6 → 1, then 1 → board, board screwed to the base</li>
-    </ol>
-  </div></details>
-
-  <details class="ref"><summary>Build the leader <span>handle and trigger</span></summary><div>
-    <div class="vids"><a href="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/lerobot/Leader_v2.mp4" target="_blank" rel="noopener">Leader handle video</a></div>
-    <ol>
-      <li>Joints 1–5 as the follower, matching <span class="tape">L1</span> … <span class="tape">L5</span> by tape</li>
-      <li>Leader holder onto the wrist (4× M3), handle onto holder (1× M2)</li>
-      <li><span class="tape">L6</span> into the handle (2× M2 each side), one horn (M3), trigger (4× M3)</li>
-      <li>Daisy-chain 6 → 1, then 1 → board, board on the base</li>
-    </ol>
-  </div></details>
-
-  <details class="ref"><summary>Calibrate and teleop <span>your real ids and scripts</span></summary><div>
-    <p>Clamp both arms first. Your calibration files are saved under the ids <code>follower</code> and <code>leader</code>. Find the mid pose by measurement, and calibrate through the wrapper that drops buffered Enter presses.</p>
-    <pre><button class="copy" type="button">Copy</button>source ports.sh
-uv run python find_mid_pose.py $FOLLOWER_PORT      <span class="c"># live bar to the true midpoint, OK within 8°</span>
-uv run python safe_calibrate.py --robot.type=so101_follower --robot.port=$FOLLOWER_PORT --robot.id=follower
-uv run python safe_calibrate.py --teleop.type=so101_leader --teleop.port=$LEADER_PORT --teleop.id=leader
-
-uv run lerobot-teleoperate \
-  --robot.type=so101_follower --robot.port=$FOLLOWER_PORT --robot.id=follower \
-  --teleop.type=so101_leader --teleop.port=$LEADER_PORT --teleop.id=leader</pre>
-    <p>Sweep every joint stop to stop while the table updates (failure 4). Start teleop with the leader roughly in the follower's pose, and move slowly for the first minute. Ctrl-C stops it, with torque off on a clean exit.</p>
-    <p><a href="https://huggingface.co/datasets/huggingface/documentation-images/resolve/main/lerobot/calibrate_so101_2.mp4" target="_blank" rel="noopener">Calibration video</a></p>
-  </div></details>
-
-  <details class="ref"><summary>Cameras <span>find them by name</span></summary><div>
-    <pre><button class="copy" type="button">Copy</button>uv run python camera_index.py                          <span class="c"># index, name, uniqueID</span>
-eval "$(uv run python camera_index.py --export)"       <span class="c"># sets WRIST_CAM, FRONT_CAM</span>
-uv run python check_camera.py $WRIST_CAM               <span class="c"># 640x480 at 30, saves a frame</span>
-uv run python check_camera.py $FRONT_CAM --size 640x360
-uv run lerobot-find-cameras opencv                     <span class="c"># LeRobot's own list, default modes</span></pre>
-    <p>The first camera request from a terminal triggers the macOS permission prompt and that run fails (failure 19). Allow it and rerun. Never hard-code an index: it changes when anything is plugged in or an iPhone comes into range (failure 20).</p>
-  </div></details>
-
-  <details class="ref"><summary>When it misbehaves <span>symptom → likely cause</span></summary><div>
-    <div class="tbl"><table>
-      <thead><tr><th>Symptom</th><th>Likely cause</th></tr></thead>
-      <tbody>
-        <tr><td>Setup or calibrate can't find a motor</td><td>Brick off, cable half-seated, or two motors chained during ID setup</td></tr>
-        <tr><td>Serial errors only while moving</td><td>Brownout: the brick can't supply the current. Bigger brick, or slower moves until it arrives</td></tr>
-        <tr><td>IDs after one point missing</td><td>A cable unseated while closing a joint, or a dead socket. Use the ping pattern (fault-finder)</td></tr>
-        <tr><td>Leader joint heavy, or sags under its own weight</td><td>Wrong gear ratio in that joint. Compare the sticker with the motor table</td></tr>
-        <tr><td>Follower jerks hard when teleop starts</td><td>Leader and follower far apart in pose. Match them, or set <code>max_relative_target</code></td></tr>
-        <tr><td>Joint reads backwards or jumps at one end</td><td>Bad calibration sweep (encoder seam). Recalibrate with the same id</td></tr>
-        <tr><td>Motor warm and humming at rest</td><td>Fighting a mechanical bind or gravity at a limit. Ctrl-C, check for a rubbing cable or tight horn</td></tr>
-        <tr><td>Wrong camera opens</td><td>Index shifted. Re-export with <code>camera_index.py</code></td></tr>
-        <tr><td>Frame rate halves in a dim room</td><td>Auto exposure holding frames open. Add light, then check with <code>check_camera.py</code></td></tr>
-      </tbody>
-    </table></div>
-  </div></details>
-
-  <details class="ref"><summary>Scripts you wrote <span>and what each caught</span></summary><div>
-    <div class="tbl"><table>
-      <thead><tr><th>Script</th><th>What it does</th><th>Caught</th></tr></thead>
-      <tbody>
-        <tr><td class="n">ports.sh</td><td>Fixed port names from the board serial numbers</td><td>Mixing up the arms</td></tr>
-        <tr><td class="n">check_ids.py</td><td>Pings six, prints <code>moved: name</code> as you turn each joint</td><td>Name and joint mismatches</td></tr>
-        <tr><td class="n">inspect_motors.py</td><td>Register table per motor, flags differences</td><td>Failure 2</td></tr>
-        <tr><td class="n">set_motor_id.py</td><td>Re-IDs one motor by joint name</td><td>The swap in failure 11</td></tr>
-        <tr><td class="n">find_mid_pose.py</td><td>Unwraps the seam, live bar to the midpoint</td><td>Failures 5, 6</td></tr>
-        <tr><td class="n">safe_calibrate.py</td><td>Wraps <code>lerobot-calibrate</code>, drops buffered Enter</td><td>Failure 7</td></tr>
-        <tr><td class="n">check_camera.py</td><td>Opens the exact mode, times frames, saves one</td><td>Failure 20</td></tr>
-        <tr><td class="n">camera_index.py</td><td>OpenCV index by name, without opening a camera</td><td>Failure 20</td></tr>
-      </tbody>
-    </table></div>
-  </div></details>
-
-  <p class="note">Sources: <a href="https://huggingface.co/docs/lerobot/so101" target="_blank" rel="noopener">LeRobot SO-101 docs</a> · <a href="https://wiki.seeedstudio.com/lerobot_so100m_new/" target="_blank" rel="noopener">Seeed SO-ARM101 wiki</a> · <a href="https://github.com/TheRobotStudio/SO-ARM100" target="_blank" rel="noopener">TheRobotStudio SO-ARM100</a>. Joint screw counts follow the HF page; where the videos disagree, trust the video.</p>
 </section>
 
 <!-- FAILURES -->
@@ -1155,10 +1023,10 @@ uv run lerobot-find-cameras opencv                     <span class="c"># LeRobot
   <div class="sec-head">
     <div class="sec-num">Reference</div>
     <h2>Failure log</h2>
-    <p>Twenty-one snags, one of them a defective part. Copied from <code>blog/posts/first-two-robots/notes.md</code>, which stays the master for the post.</p>
+    <p>The 13 of 21 assembly snags with something to learn from them, numbered as in <code>blog/posts/first-two-robots/notes.md</code>. Power-off slips and loose plugs are left out; all 21 are in <code>robotics/archive/bench-sheet.html</code>.</p>
   </div>
   <div class="chips" id="f-chips" role="group" aria-label="Filter failures by category"></div>
-  <div id="f-list"><div class="fail" id="f-1" data-cat="Power"><span class="no">1</span><h4><code>Motor 'gripper' was not found</code> on the leader</h4><p><b>Root cause</b>Brick off. USB powers only the board's serial chip, not the motors.</p><p><b>Fix</b>Switched the brick on. Brick on before any script.</p><span class="cat-tag">Power</span></div><div class="fail" id="f-2" data-cat="Procedure"><span class="no">2</span><h4>12 V 1:345 motor in the leader gripper</h4><p><b>Root cause</b>All variants look the same apart from the sticker.</p><p><b>Fix</b>Follower set came up one 12 V motor short. Swapped for the 1:147. Later: register fingerprint in <code>inspect_motors.py</code>.</p><span class="cat-tag">Procedure</span></div><div class="fail" id="f-3" data-cat="Procedure"><span class="no">3</span><h4>Leader built with IDs unset</h4><p><b>Root cause</b>Assumed IDs could wait, but setup needs one motor on the bus at a time.</p><p><b>Fix</b>Set IDs per motor through the still-reachable cables.</p><span class="cat-tag">Procedure</span></div><div class="fail" id="f-4" data-cat="Procedure"><span class="no">4</span><h4>Calibration ranges of 5–430 ticks</h4><p><b>Root cause</b>Pressed Enter after 17 s, before sweeping each joint stop to stop.</p><p><b>Fix</b>Sweep every joint fully while the table updates.</p><span class="cat-tag">Procedure</span></div><div class="fail" id="f-5" data-cat="Procedure"><span class="no">5</span><h4>Elbow range 1–4095</h4><p><b>Root cause</b>Mid pose set with the arm folded, so the sweep crossed the 4095 → 0 seam.</p><p><b>Fix</b><code>find_mid_pose.py</code> unwraps the seam.</p><span class="cat-tag">Procedure</span></div><div class="fail" id="f-6" data-cat="Procedure"><span class="no">6</span><h4>Three joints still near one end after "mid pose by eye"</h4><p><b>Root cause</b>Eyeballing the midpoint isn't accurate enough.</p><p><b>Fix</b>Use the live bar, OK within 8°.</p><span class="cat-tag">Procedure</span></div><div class="fail" id="f-7" data-cat="Procedure"><span class="no">7</span><h4>All joints 2047, then a "same min and max" error</h4><p><b>Root cause</b>An extra Enter was buffered on stdin, and <code>enter_pressed()</code> stops on any buffered blank line.</p><p><b>Fix</b><code>safe_calibrate.py</code> flushes stdin and ignores Enter for 3 s.</p><span class="cat-tag">Procedure</span></div><div class="fail" id="f-8" data-cat="Power"><span class="no">8</span><h4>Follower: nothing answers, twice</h4><p><b>Root cause</b>Brick off.</p><p><b>Fix</b>Brick on.</p><span class="cat-tag">Power</span></div><div class="fail" id="f-9" data-cat="Power"><span class="no">9</span><h4>Follower: unreliable power</h4><p><b>Root cause</b>Power-terminal screws on the board never tightened.</p><p><b>Fix</b>Tightened.</p><span class="cat-tag">Power</span></div><div class="fail" id="f-10" data-cat="Wiring"><span class="no">10</span><h4>IDs 2, 3, 4, 6 answer and 5 doesn't</h4><p><b>Root cause</b>wrist_flex cabled straight to the gripper, skipping wrist_roll.</p><p><b>Fix</b>Recabled. Found from which IDs answered.</p><span class="cat-tag">Wiring</span></div><div class="fail" id="f-11" data-cat="Defective part"><span class="no">11</span><h4>Only ID 1 answers</h4><p><b>Root cause</b>Dead right socket on the shoulder_pan motor, probably a cracked solder joint. It looked perfect in photos.</p><p><b>Fix</b>Socket-swap test, then the motor out of the arm. Moved it to the gripper, the end of the chain, which needs one socket. Re-IDed both.</p><span class="cat-tag">Defective part</span></div><div class="fail" id="f-12" data-cat="Wiring"><span class="no">12</span><h4>ID 6 missing after cable tidying</h4><p><b>Root cause</b>Gripper plug pulled loose.</p><p><b>Fix</b>Reseated.</p><span class="cat-tag">Wiring</span></div><div class="fail" id="f-13" data-cat="Parts against docs"><span class="no">13</span><h4>Wrist-cam board won't line up on its plate</h4><p><b>Root cause</b>Bracket drawn for a different 32 × 32 board: 27.0 mm hole square against the ET-S231's roughly 28 mm.</p><p><b>Fix</b>Found by slicing the STL with trimesh and measuring photos. Open the plate holes about 0.5 mm outward (pending).</p><span class="cat-tag">Parts against docs</span></div><div class="fail" id="f-14" data-cat="Parts against docs"><span class="no">14</span><h4>Wrist-cam board doesn't sit flat</h4><p><b>Root cause</b>Plate's notch too small for the board's rear connector.</p><p><b>Fix</b>Trim the notch with a knife (pending).</p><span class="cat-tag">Parts against docs</span></div><div class="fail" id="f-15" data-cat="Parts against docs"><span class="no">15</span><h4>Wrist-cam flap too thick for its slot</h4><p><b>Root cause</b>Print tolerance, plus what looks like leftover support on the flap's end.</p><p><b>Fix</b>Filed the flap and lightly the gripper's gaps, test-fitting as I went. Press fit, holes line up.</p><span class="cat-tag">Parts against docs</span></div><div class="fail" id="f-16" data-cat="Parts against docs"><span class="no">16</span><h4>Nowhere to bolt the wrist-cam flap</h4><p><b>Root cause</b>Two M3 hex nuts belong in pockets inside the housing before motor 6 goes in. The docs animation shows them and the step text doesn't.</p><p><b>Fix</b>Motor 6 out, nuts in (pending).</p><span class="cat-tag">Parts against docs</span></div><div class="fail" id="f-17" data-cat="Parts against docs"><span class="no">17</span><h4>Leftover tray screws won't take a nut</h4><p><b>Root cause</b>They're self-tappers. The kit has no M3 machine screws.</p><p><b>Fix</b>Source M3 × 8 and M3 nuts. Arrived 31 Oct.</p><span class="cat-tag">Parts against docs</span></div><div class="fail" id="f-18" data-cat="Procedure"><span class="no">18</span><h4>Follower wrist roll fitted the wrong way round</h4><p><b>Root cause</b>Cause not recorded in your notes.</p><p><b>Fix</b>Refitted before wiring.</p><span class="cat-tag">Procedure</span></div><div class="fail" id="f-19" data-cat="Software and OS"><span class="no">19</span><h4><code>lerobot-find-cameras</code> found no cameras, not even the built-in one</h4><p><b>Root cause</b>First camera request from the terminal: macOS asks permission and OpenCV fails that run.</p><p><b>Fix</b>Rerun after allowing.</p><span class="cat-tag">Software and OS</span></div><div class="fail" id="f-20" data-cat="Software and OS"><span class="no">20</span><h4>Wrist-cam index opened the MacBook camera</h4><p><b>Root cause</b>OpenCV on macOS numbers cameras by sorted uniqueID. Continuity Camera came and went and shifted the indices, and the index had been read off ffmpeg's unsorted list.</p><p><b>Fix</b><code>camera_index.py</code> looks cameras up by name.</p><span class="cat-tag">Software and OS</span></div><div class="fail" id="f-21" data-cat="Parts against docs"><span class="no">21</span><h4>M3 × 10 stopped motor 6 going back in</h4><p><b>Root cause</b>With the screw driven in and the motor out, the nut sits pressed against where the motor goes.</p><p><b>Fix</b>Next try: nuts flush, motor in, M3 × 8 last from outside. Outcome pending.</p><span class="cat-tag">Parts against docs</span></div></div>
+  <div id="f-list"><div class="fail" id="f-2" data-cat="Procedure"><span class="no">2</span><h4>12 V 1:345 motor in the leader gripper</h4><p><b>Root cause</b>All variants look the same apart from the sticker.</p><p><b>Fix</b>Follower set came up one 12 V motor short. Swapped for the 1:147. Later: register fingerprint in <code>inspect_motors.py</code>.</p><span class="cat-tag">Procedure</span></div><div class="fail" id="f-3" data-cat="Procedure"><span class="no">3</span><h4>Leader built with IDs unset</h4><p><b>Root cause</b>Assumed IDs could wait, but setup needs one motor on the bus at a time.</p><p><b>Fix</b>Set IDs per motor through the still-reachable cables.</p><span class="cat-tag">Procedure</span></div><div class="fail" id="f-4" data-cat="Procedure"><span class="no">4</span><h4>Calibration ranges of 5–430 ticks</h4><p><b>Root cause</b>Pressed Enter after 17 s, before sweeping each joint stop to stop.</p><p><b>Fix</b>Sweep every joint fully while the table updates.</p><span class="cat-tag">Procedure</span></div><div class="fail" id="f-5" data-cat="Procedure"><span class="no">5</span><h4>Elbow range 1–4095</h4><p><b>Root cause</b>Mid pose set with the arm folded, so the sweep crossed the 4095 → 0 seam.</p><p><b>Fix</b><code>find_mid_pose.py</code> unwraps the seam.</p><span class="cat-tag">Procedure</span></div><div class="fail" id="f-6" data-cat="Procedure"><span class="no">6</span><h4>Three joints still near one end after "mid pose by eye"</h4><p><b>Root cause</b>Eyeballing the midpoint isn't accurate enough.</p><p><b>Fix</b>Use the live bar, OK within 8°.</p><span class="cat-tag">Procedure</span></div><div class="fail" id="f-7" data-cat="Procedure"><span class="no">7</span><h4>All joints 2047, then a "same min and max" error</h4><p><b>Root cause</b>An extra Enter was buffered on stdin, and <code>enter_pressed()</code> stops on any buffered blank line.</p><p><b>Fix</b><code>safe_calibrate.py</code> flushes stdin and ignores Enter for 3 s.</p><span class="cat-tag">Procedure</span></div><div class="fail" id="f-10" data-cat="Wiring"><span class="no">10</span><h4>IDs 2, 3, 4, 6 answer and 5 doesn't</h4><p><b>Root cause</b>wrist_flex cabled straight to the gripper, skipping wrist_roll.</p><p><b>Fix</b>Recabled. Found from which IDs answered.</p><span class="cat-tag">Wiring</span></div><div class="fail" id="f-11" data-cat="Defective part"><span class="no">11</span><h4>Only ID 1 answers</h4><p><b>Root cause</b>Dead right socket on the shoulder_pan motor, probably a cracked solder joint. It looked perfect in photos.</p><p><b>Fix</b>Socket-swap test, then the motor out of the arm. Moved it to the gripper, the end of the chain, which needs one socket. Re-IDed both.</p><span class="cat-tag">Defective part</span></div><div class="fail" id="f-13" data-cat="Parts against docs"><span class="no">13</span><h4>Wrist-cam board won't line up on its plate</h4><p><b>Root cause</b>Bracket drawn for a different 32 × 32 board: 27.0 mm hole square against the ET-S231's roughly 28 mm.</p><p><b>Fix</b>Found by slicing the STL with trimesh and measuring photos. Open the plate holes about 0.5 mm outward. Camera mounted 14 Nov.</p><span class="cat-tag">Parts against docs</span></div><div class="fail" id="f-16" data-cat="Parts against docs"><span class="no">16</span><h4>Nowhere to bolt the wrist-cam flap</h4><p><b>Root cause</b>Two M3 hex nuts belong in pockets inside the housing before motor 6 goes in. The docs animation shows them and the step text doesn't.</p><p><b>Fix</b>Motor 6 out, nuts in, motor back. Done 14 Nov.</p><span class="cat-tag">Parts against docs</span></div><div class="fail" id="f-19" data-cat="Software and OS"><span class="no">19</span><h4><code>lerobot-find-cameras</code> found no cameras, not even the built-in one</h4><p><b>Root cause</b>First camera request from the terminal: macOS asks permission and OpenCV fails that run.</p><p><b>Fix</b>Rerun after allowing.</p><span class="cat-tag">Software and OS</span></div><div class="fail" id="f-20" data-cat="Software and OS"><span class="no">20</span><h4>Wrist-cam index opened the MacBook camera</h4><p><b>Root cause</b>OpenCV on macOS numbers cameras by sorted uniqueID. Continuity Camera came and went and shifted the indices, and the index had been read off ffmpeg's unsorted list.</p><p><b>Fix</b><code>camera_index.py</code> looks cameras up by name.</p><span class="cat-tag">Software and OS</span></div><div class="fail" id="f-21" data-cat="Parts against docs"><span class="no">21</span><h4>M3 × 10 stopped motor 6 going back in</h4><p><b>Root cause</b>With the screw driven in and the motor out, the nut sits pressed against where the motor goes.</p><p><b>Fix</b>Nuts flush, motor in, screws last from outside. Flap bolted 14 Nov.</p><span class="cat-tag">Parts against docs</span></div></div>
 </section>
 
 <section id="glossary">
@@ -1168,6 +1036,8 @@ uv run lerobot-find-cameras opencv                     <span class="c"># LeRobot
   </div>
   <div class="gloss-tools">
     <input type="search" id="g-search" placeholder="Filter terms, e.g. EEPROM, PID, null space" aria-label="Filter glossary">
+    <button type="button" id="g-show">Show all</button>
+    <button type="button" id="g-hide">Hide all</button>
     <span class="count" id="g-count"></span>
   </div>
   <div class="cats">
@@ -1180,6 +1050,7 @@ uv run lerobot-find-cameras opencv                     <span class="c"># LeRobot
     <a href="#g-learn">Learning from demonstrations</a>
   </div>
 
+  <p class="note">Say the definition out loud, then click the term to check.</p>
   <div class="cat" id="g-bus">
     <h3>Electronics and the bus</h3>
     <dl>
@@ -1200,7 +1071,7 @@ uv run lerobot-find-cameras opencv                     <span class="c"># LeRobot
       <div class="entry"><dt>Screw terminal</dt><dd>A clamp for bare wire: loosen the screw, insert the stripped end, tighten. Polarity matters for DC power.</dd></div>
       <div class="entry"><dt>Voltage and current</dt><dd>Voltage is electrical pressure and has to match what the motor is built for. Current (amps) is how much flows. A supply's amp rating is a ceiling on current, and the motors only draw what they need.<span class="yours">12 V on the follower, 5 V on the leader (7.4 V motors run slower and weaker at 5 V, which suits a leader). 12 V into the leader motors burns them.</span></dd></div>
       <div class="entry"><dt>Ground (GND)</dt><dd>The shared 0 V reference that every voltage is measured from. Devices that talk to each other have to share it.</dd></div>
-      <div class="entry"><dt>Brownout</dt><dd>The supply voltage sags under a heavy draw and electronics reset or misread. Classic symptom: serial errors that only happen while the arm moves.<span class="yours">the 12 V brick is 2.0 A against the 5 A the BOM asks for. The first teleop on 29 Oct ran clean, and a 5 A brick is on the backlog.</span></dd></div>
+      <div class="entry"><dt>Brownout</dt><dd>The supply voltage sags under a heavy draw and electronics reset or misread. Classic symptom: serial errors that only happen while the arm moves.<span class="yours">the follower ran on a 2.0 A brick until 14 Nov, against the 5 A the BOM asks for, and fast moves lagged on it. The 5 A brick holds 12.1–12.3 V at every motor.</span></dd></div>
     </dl>
   </div>
 
@@ -1218,8 +1089,8 @@ uv run lerobot-find-cameras opencv                     <span class="c"># LeRobot
       <div class="entry"><dt>Spline</dt><dd>The toothed output shaft the horn presses onto. The teeth transmit the torque.<span class="yours">the silent, free-swinging shoulder joint during the leader build was a horn not seated on its spline.</span></dd></div>
       <div class="entry"><dt>Encoder</dt><dd>A sensor that reports shaft angle. The STS3215 has a magnetic encoder on the output shaft giving 4096 counts per turn, about 0.088° per count. It's absolute within one turn, so it knows its position at power-on without homing.</dd></div>
       <div class="entry"><dt>Tick / raw position</dt><dd>One encoder count. Raw positions run 0–4095.</dd></div>
-      <div class="entry"><dt>Register</dt><dd>A numbered memory slot in the servo that you read or write over the bus: <code>ID</code>, <code>Goal_Position</code>, <code>Present_Position</code>, <code>Torque_Enable</code>, <code>P_Coefficient</code> and so on. The whole list is the control table.</dd></div>
-      <div class="entry"><dt>EEPROM vs RAM</dt><dd>EEPROM keeps its contents through power-off and holds settings: ID, baud rate, limits, homing offset. RAM resets at power-off and holds live values: goal position, torque on or off. A <code>Lock</code> register guards EEPROM against accidental writes.</dd></div>
+      <div class="entry"><dt>Register</dt><dd>A numbered memory slot in the servo that you read or write over the bus: <code>ID</code>, <code>Goal_Position</code>, <code>Present_Position</code>, <code>Torque_Enable</code>, <code>P_Coefficient</code> and so on. The whole list is the control table.<span class="see"><a href="#regmap">The register map</a></span></dd></div>
+      <div class="entry"><dt>EEPROM vs RAM</dt><dd>EEPROM keeps its contents through power-off and holds settings: ID, baud rate, limits, homing offset. RAM resets at power-off and holds live values: goal position, torque on or off. A <code>Lock</code> register guards EEPROM against accidental writes, and EEPROM wears out after a limited number of writes.<span class="see"><a href="#regmap">Guess which is which in the register map</a></span></dd></div>
       <div class="entry"><dt>Torque enable</dt><dd>On: the motor drives to and holds its goal. Off: the motor goes limp and can be turned by hand, but still reports its position.<span class="yours">the leader runs with torque off, and the follower with torque on.</span></dd></div>
       <div class="entry"><dt>Goal vs present position</dt><dd>Goal is where you told the motor to go, and present is where the encoder says it is. The gap between them is the error the control loop works to remove.</dd></div>
       <div class="entry"><dt>Overload protection</dt><dd>The servo cuts or reduces its own torque when current or load stays too high for too long. It protects the motor, but it can also look like a joint suddenly going weak.</dd></div>
@@ -1278,8 +1149,8 @@ uv run lerobot-find-cameras opencv                     <span class="c"># LeRobot
       <div class="entry"><dt>Normalisation</dt><dd>How LeRobot presents joint values after calibration: degrees for the arm joints and 0–100 for the gripper, the same on both arms.</dd></div>
       <div class="entry"><dt>Calibration file</dt><dd>A JSON file of offsets and ranges, saved under the arm's <code>id</code> in <code>~/.cache/huggingface/lerobot/calibration/</code>. Use the same <code>--robot.id</code> / <code>--teleop.id</code> every time, or LeRobot won't find it.</dd></div>
       <div class="entry"><dt>Robot vs teleoperator</dt><dd>LeRobot's two device roles. A robot is something that acts (<code>so101_follower</code>, with cameras) and a teleoperator is something a human uses to command it (<code>so101_leader</code>, a keyboard, a gamepad).</dd></div>
-      <div class="entry"><dt>MotorsBus</dt><dd>LeRobot's object for one serial port plus the motors on it. <code>FeetechMotorsBus</code> handles packets, sync reads and calibration. <code>check_ids.py</code> uses it directly.</dd></div>
-      <div class="entry"><dt>Rerun</dt><dd>A viewer for time-series and camera streams. <code>--display_data=true</code> pipes joint values and frames into it live.<span class="yours">needs the viz extra: <code>uv add "lerobot[feetech,viz]"</code>.</span></dd></div>
+      <div class="entry"><dt>MotorsBus</dt><dd>LeRobot's object for one serial port plus the motors on it. In 0.7.0 it's <code>SerialMotorsBus</code>, driving the motors through the Rust library rustypot; the old <code>FeetechMotorsBus</code> name still works with a deprecation warning. Your scripts use it directly.</dd></div>
+      <div class="entry"><dt>Rerun</dt><dd>A viewer for time-series and camera streams. <code>--display_data=true</code> pipes joint values and frames into it live.<span class="yours">included in the repo's <code>core-scripts</code> extra.</span></dd></div>
       <div class="entry"><dt>Hugging Face Hub</dt><dd>Where LeRobot datasets and trained policies get pushed and pulled, by repo id such as <code>user/so101_pick</code>.</dd></div>
       <div class="entry"><dt>Encoder seam</dt><dd>Where the raw count wraps from 4095 back to 0. If a joint's travel crosses it, range recording sees both 0 and 4095 and records nearly a full turn. Half-turn homing puts the held pose at 2047, opposite the seam, so the travel fits as long as the pose is near the middle.<span class="yours">failure 5: elbow range 1–4095 after setting the mid pose with the arm folded. Now 82° clear of the seam.</span><span class="see"><a href="#seam">The encoder seam sim</a></span></dd></div>
       <div class="entry"><dt><code>read_latest</code></dt><dd>How the follower reads its cameras in each teleop loop: it takes the newest frame without waiting for a fresh one, so 30 fps cameras don't slow a 60 Hz loop. A frame older than 0.5 s stops teleop with a <code>TimeoutError</code>.</dd></div>
@@ -1315,7 +1186,7 @@ uv run lerobot-find-cameras opencv                     <span class="c"># LeRobot
       <div class="entry"><dt>Imitation learning / behaviour cloning</dt><dd>Training a policy with supervised learning to copy demonstrated actions. Behaviour cloning is the simplest form.</dd></div>
       <div class="entry"><dt>Compounding error</dt><dd>Small mistakes put the robot in states the demonstrations never covered, which leads to bigger mistakes. It's the central weakness of behaviour cloning, and the reason demo diversity matters.</dd></div>
       <div class="entry"><dt>ACT</dt><dd>Action Chunking with Transformers (Zhao et al., 2023, from the ALOHA work). A transformer, trained as a CVAE, predicts a chunk of future actions from images and joint state. LeRobot's standard first policy for the SO-101.</dd></div>
-      <div class="entry"><dt>Action chunk</dt><dd>A short sequence of future actions predicted in one go. It smooths motion and reduces compounding error compared with predicting one step at a time.</dd></div>
+      <div class="entry"><dt>Action chunk</dt><dd>A short sequence of future actions predicted in one go. It smooths motion and reduces compounding error compared with predicting one step at a time.<span class="see"><a href="#act-explorer">The ACT explorer</a> · <a href="#build-1">your 1-D toy</a></span></dd></div>
       <div class="entry"><dt>Diffusion Policy</dt><dd>A policy that generates an action chunk by denoising random noise, the same way image diffusion models work. Good at multimodal demos (two valid ways to do something).</dd></div>
       <div class="entry"><dt>VLA</dt><dd>Vision-language-action model: a pretrained vision-language model fine-tuned to output robot actions, so it can take an instruction in words. SmolVLA and π0 are both in LeRobot.</dd></div>
       <div class="entry"><dt>Rollout / evaluation</dt><dd>Running the trained policy on the real arm and counting successes over a fixed number of trials. Success rate is the headline metric.</dd></div>
@@ -1656,6 +1527,22 @@ uv run lerobot-find-cameras opencv                     <span class="c"># LeRobot
     gCount.textContent = q ? shown + " of " + entries.length + " terms" : entries.length + " terms";
   }
   search.addEventListener("input", filter);
+
+  /* ---------- Glossary self-test: definitions hidden until the term is clicked ---------- */
+  const gloss = document.getElementById("glossary");
+  gloss.classList.add("quiz");
+  entries.forEach((e) => {
+    const dt = e.querySelector("dt");
+    dt.tabIndex = 0;
+    dt.setAttribute("role", "button");
+    dt.setAttribute("aria-expanded", "false");
+    const flip = () => { const open = e.classList.toggle("open"); dt.setAttribute("aria-expanded", String(open)); };
+    dt.addEventListener("click", flip);
+    dt.addEventListener("keydown", (ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); flip(); } });
+  });
+  const setAll = (open) => entries.forEach((e) => { e.classList.toggle("open", open); e.querySelector("dt").setAttribute("aria-expanded", String(open)); });
+  document.getElementById("g-show").addEventListener("click", () => setAll(true));
+  document.getElementById("g-hide").addEventListener("click", () => setAll(false));
 
   /* ---------- boot + theme / resize ---------- */
   function drawAll() { updateCount(); drawRed(); }

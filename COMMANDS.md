@@ -86,7 +86,7 @@ After pressing LeLab's update button, restart it: the running server keeps the o
 
 ```bash
 uv run python check_ids.py $FOLLOWER_PORT       # turn a joint, see which motor moved
-uv run python inspect_motors.py $FOLLOWER_PORT  # factory limits and Present_Voltage (0.1 V units)
+uv run python inspect_motors.py $FOLLOWER_PORT  # limits, Present_Voltage (0.1 V), temperature, Status
 uv run python camera_index.py                   # index, name and uniqueID of each camera
 uv run python check_camera.py $WRIST_CAM        # 640x480 at 30 fps, timed
 uv run python check_camera.py $FRONT_CAM --size 640x360 --seconds 600  # scene camera heat test

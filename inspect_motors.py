@@ -1,4 +1,4 @@
-"""Print each motor's factory settings side by side, read-only.
+"""Print each motor's settings, temperature and alarm status side by side, read-only.
 
 Used to spot a 12 V follower motor hiding in the leader: the 12 V and 7.4 V
 STS3215 variants report the same model number, so look for the motor whose
@@ -29,6 +29,9 @@ REGISTERS = [
     "Protection_Current",
     "Overload_Torque",
     "P_Coefficient",
+    "Max_Temperature_Limit",  # °C, EEPROM
+    "Present_Temperature",  # °C, live
+    "Status",  # 0 = no alarm; bits for voltage, sensor, temperature, current, load
 ]
 
 
